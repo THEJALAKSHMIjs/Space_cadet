@@ -5,7 +5,7 @@ const express = require('express')
 //import cors
 const cors = require('cors')
 //import router
-const router = require('./router')
+const router = require('./routes/router')
 //import connection
 require('./connection')
 
