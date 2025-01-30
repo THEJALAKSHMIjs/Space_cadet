@@ -6,8 +6,8 @@ const usercontroller =  require('../Controller/userController')
 //create instance router
 const router = new express.Router()
 
-//REGISTER
-router.post('/register',usercontroller.register)
+//login
+router.post('/login',usercontroller.login)
 
 
 module.exports = router
