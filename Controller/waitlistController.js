@@ -5,39 +5,33 @@ const addToWaitlist = async (req, res) => {
   try {
     const { name, email, reasonOfJoin, excitesOfJoin, platformUse, infoOfPlatform } = req.body;
 
-    // ✅ Ensure all required fields are provided
     if (!name || !email || !reasonOfJoin || !excitesOfJoin || !platformUse || !infoOfPlatform) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // ✅ Check if email already exists in the waitlist
     const existingEntry = await Waitlist.findOne({ email });
     if (existingEntry) {
       return res.status(400).json({ message: "Email already exists in the waitlist" });
     }
 
-    // ✅ Fetch question points dynamically (excluding reasonOfJoin)
     const selectedQuestions = await Question.find({
       key: { $in: [excitesOfJoin, platformUse, infoOfPlatform] }
     });
 
-    // ✅ Validate if all selected questions exist in the database
     if (selectedQuestions.length !== 3) {
       return res.status(400).json({ message: "Invalid question selection" });
     }
 
-    // ✅ Calculate total points (only from excitesOfJoin, platformUse, and infoOfPlatform)
     const points = selectedQuestions.reduce((total, question) => total + question.points, 0);
 
-    // ✅ Save new waitlist entry
     const newEntry = new Waitlist({
       name,
       email,
-      reasonOfJoin, // Storing reasonOfJoin but NOT using it for points
+      reasonOfJoin, 
       excitesOfJoin,
       platformUse,
       infoOfPlatform,
-      points, // Calculated points
+      points,
     });
 
     await newEntry.save();
