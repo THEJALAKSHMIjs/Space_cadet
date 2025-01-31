@@ -20,11 +20,11 @@ const questions = [
 
 const seedQuestions = async () => {
   try {
-    // ✅ Remove existing questions to avoid duplicates
+  
     await Question.deleteMany({});
     console.log("Existing questions deleted.");
 
-    // ✅ Insert new questions
+
     await Question.insertMany(questions);
     console.log("Questions seeded successfully!");
 
