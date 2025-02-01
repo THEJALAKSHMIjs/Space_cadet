@@ -6,8 +6,8 @@ const waitlistController=  require('../Controller/waitlistController')
 //create instance router
 const router = new express.Router()
 
-//REGISTER
-router.post('/register',usercontroller.register)
+//login
+router.post('/login',usercontroller.login)
 
 router.post('/waitlist',waitlistController.addToWaitlist)
 
