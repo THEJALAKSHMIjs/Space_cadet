@@ -13,5 +13,10 @@ router.post('/waitlist',waitlistController.addToWaitlist)
 
 router.get('/stats', waitlistController.getWaitlistStats); 
 
+router.get('/forgot_password',usercontroller.forgotPassword)
+
+router.post('/resetpassword',usercontroller.resetPassword)
+
+
 
 module.exports = router
