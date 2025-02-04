@@ -6,29 +6,34 @@ const nodemailer = require("nodemailer");
 
 const bcrypt = require('bcrypt');
 
-//login
-  exports.login = async(req , res)=>{
-  //logic
-  console.log('inside the login function');
-  const { email , password} = req.body
-  console.log( email,password);
+// Login function
+exports.login = async (req, res) => {
+  // console.log('Inside the login function');
+  const { username, password } = req.body;
+  console.log(username, password);
+
   try {
-    const existingUser = await users.findOne({email,password})
-    if(existingUser){
-      const token = jwt.sign({userId:existingUser._id},'secretkey')
-        res.status(200).json({existingUser , token})
-    }else{
-      res.status(406).json('incorrect email id or password')
-        
+    const existingUser = await users.findOne({ username });
+
+    if (!existingUser) {
+      return res.status(406).json('Incorrect username or password');
     }
+
+    // Compare hashed password
+    const isMatch = await bcrypt.compare(password, existingUser.password);
+
+    if (!isMatch) {
+      return res.status(406).json('Incorrect username or password');
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: existingUser._id }, 'secretkey', { expiresIn: '1h' });
+
+    res.status(200).json({ existingUser, token });
   } catch (error) {
-    res.status(401).json(error)
+    res.status(500).json({ error: 'Server error' });
   }
-  
-
-
-  
-}
+};
 
 // 🔹 Forgot Password - Sends Reset Link
 
