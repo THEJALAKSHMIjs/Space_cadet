@@ -7,3 +7,5 @@ const waitlistController=  require('../Controller/waitlistController')
 const router = new express.Router()
 
 router.post('/waitlist',waitlistController.addToWaitlist)
+const { getQuestions } = require('../Controller/questionController'); 
+router.get('/questions', getQuestions); 

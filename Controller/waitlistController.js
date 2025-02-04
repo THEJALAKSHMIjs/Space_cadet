@@ -46,16 +46,32 @@ const addToWaitlist = async (req, res) => {
       return res.status(400).json({ message: "Email already exists in the waitlist" });
     }
 
-    
-    const selectedQuestions = await Question.find({ key: { $in: [excitesOfJoin, platformUse, infoOfPlatform] } });
+    // Fetch all questions
+    const allQuestions = await Question.find();
 
-    if (selectedQuestions.length !== 3) {
+    // Extract all valid keys from the options array
+    const allValidKeys = allQuestions.flatMap(q => q.options.map(opt => opt.key));
+
+    // Validate selected keys
+    const selectedKeys = [excitesOfJoin, platformUse, infoOfPlatform];
+
+    const isValid = selectedKeys.every(key => allValidKeys.includes(key));
+
+    if (!isValid) {
       return res.status(400).json({ message: "Invalid question selection" });
     }
 
-    const points = selectedQuestions.reduce((total, question) => total + question.points, 0);
+    // Calculate total points
+    let points = 0;
+    allQuestions.forEach(q => {
+      q.options.forEach(opt => {
+        if (selectedKeys.includes(opt.key)) {
+          points += opt.points;
+        }
+      });
+    });
 
-  
+    // Save waitlist entry
     const newWaitlistEntry = new Waitlist({
       name,
       email,
@@ -68,6 +84,7 @@ const addToWaitlist = async (req, res) => {
 
     await newWaitlistEntry.save();
 
+    // If user reaches 80+ points, generate credentials and send email
     if (points >= 80) {
       const { username, password } = generateCredentials(name);
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -94,7 +111,6 @@ const addToWaitlist = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 const getWaitlistStats = async (req, res) => {
   try {
