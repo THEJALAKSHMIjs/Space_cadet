@@ -12,9 +12,17 @@ const router = express.Router();
 // Authentication Routes
 router.post('/login', login);
 
+
 // Waitlist Routes
 router.post('/waitlist', addToWaitlist);
 router.get('/stats', getWaitlistStats);
+
+router.get('/forgot_password',usercontroller.forgotPassword)
+
+router.post('/resetpassword',usercontroller.resetPassword)
+
+
+
 
 // Questions Route (New)
 router.get('/questions', getQuestions); 
