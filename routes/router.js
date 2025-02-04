@@ -1,17 +1,21 @@
-//import express 
-const express = require('express')
-//import user controller
-const usercontroller =  require('../Controller/userController')
-const waitlistController=  require('../Controller/waitlistController')
-//create instance router
-const router = new express.Router()
+// Import Express 
+const express = require('express');
 
-//login
-router.post('/login',usercontroller.login)
+// Import Controllers
+const { login } = require('../Controller/userController');
+const { addToWaitlist, getWaitlistStats } = require('../Controller/waitlistController');
+const { getQuestions } = require('../Controller/questionController'); 
 
-router.post('/waitlist',waitlistController.addToWaitlist)
+// Create router instance
+const router = express.Router();
 
-router.get('/stats', waitlistController.getWaitlistStats); 
+// Authentication Routes
+router.post('/login', login);
+
+
+// Waitlist Routes
+router.post('/waitlist', addToWaitlist);
+router.get('/stats', getWaitlistStats);
 
 router.get('/forgot_password',usercontroller.forgotPassword)
 
@@ -19,4 +23,9 @@ router.post('/resetpassword',usercontroller.resetPassword)
 
 
 
-module.exports = router
+
+// Questions Route (New)
+router.get('/questions', getQuestions); 
+
+// Export router
+module.exports = router;
