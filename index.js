@@ -11,7 +11,7 @@ require('./connection')
 
 
 //create server
-const spacecadet= express()
+const spacecadet = express()
 //server using cors
 spacecadet.use(cors())
 //parse the data 
@@ -23,12 +23,12 @@ spacecadet.use(router)
 const PORT = 4000 || process.env.PORT
 
 //listen port 
-spacecadet.listen(PORT,()=>{
+spacecadet.listen(PORT, () => {
     console.log(`server running successfully at port number ${PORT}`);
-    
+
 })
 
-//get 
+//get
 // spacecadet.get('/' , (req , res)=>{
 //     res.send('get request recieved')
 // })
