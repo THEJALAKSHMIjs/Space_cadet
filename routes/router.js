@@ -1,6 +1,3 @@
-// Import Express 
-const express = require('express');
-
 // Import Controllers
 const { login, forgotPassword, resetPassword, verifyOtp } = require('../Controller/userController');
 const { addToWaitlist, getWaitlistStats } = require('../Controller/waitlistController');

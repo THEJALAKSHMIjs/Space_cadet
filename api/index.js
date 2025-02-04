@@ -5,9 +5,9 @@ const express = require('express')
 //import cors
 const cors = require('cors')
 //import router
-const router = require('./routes/router')
+const router = require('../routes/router')
 //import connection
-require('./connection')
+require('../connection')
 
 
 //create server
