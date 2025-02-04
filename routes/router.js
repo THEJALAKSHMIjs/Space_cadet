@@ -2,7 +2,7 @@
 const express = require('express');
 
 // Import Controllers
-const { login } = require('../Controller/userController');
+const { login, forgotPassword, resetPassword, verifyOtp } = require('../Controller/userController');
 const { addToWaitlist, getWaitlistStats } = require('../Controller/waitlistController');
 const { getQuestions } = require('../Controller/questionController'); 
 
@@ -17,9 +17,9 @@ router.post('/login', login);
 router.post('/waitlist', addToWaitlist);
 router.get('/stats', getWaitlistStats);
 
-router.get('/forgot_password',usercontroller.forgotPassword)
-
-router.post('/resetpassword',usercontroller.resetPassword)
+router.post('/forgot-password',forgotPassword)
+router.post('/verify-otp',verifyOtp)
+router.post('/reset-password',resetPassword)
 
 
 
